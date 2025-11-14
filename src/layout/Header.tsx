@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { Layout, Menu, Button, Drawer, Row, Col } from "antd";
 
-import IMAGE from "../assets/LOGO CUADRADO.png";
-import IMAGE2 from "../assets/logo largo.png";
+import IMAGE from "/assets/LOGO CUADRADO.png";
+import IMAGE2 from "/assets/logo largo.png";
 
 import "./Header.css";
 import { Icon } from "@iconify/react";
