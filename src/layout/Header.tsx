@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { Layout, Menu, Button, Drawer, Row, Col } from "antd";
+import { Layout, Menu, Button, Drawer } from "antd";
 
 import IMAGE from "/assets/LOGO CUADRADO.png";
 import IMAGE2 from "/assets/logo largo.png";
 
-import "./Header.css";
 import { Icon } from "@iconify/react";
 
 const { Header } = Layout;
@@ -38,33 +37,38 @@ export default function AppHeader() {
     </Menu>
   );
 
+  type LinkItem = {
+    key: number;
+    link: string;
+    text: string;
+  };
+
+  const Links: LinkItem[] = [
+    { key: 1, link: "/", text: "HOME" },
+    { key: 2, link: "/nosotros", text: "NOSOTROS" },
+    { key: 3, link: "/services", text: "SERVICIOS" },
+    { key: 4, link: "/contact", text: "CONTACTO" },
+  ];
+
   return (
-    <div className="box">
+    <>
       <Header
-        className="appbar"
+        className="flex items-center"
         style={{
           backgroundColor: "#E9EEF4",
-          color: "black",
           padding: "0 20px",
-          display: "flex",
-          alignItems: "center",
-          height: "auto",
-          lineHeight: "80px",
+          height: "80px",
         }}
       >
-        <Row
-          align="middle"
-          justify="space-between"
-          style={{ width: "100%", flexWrap: "nowrap" }}
-        >
+        <div className="w-full max-w-auto mx-auto flex items-center justify-between">
           {/* === Botón menú hamburguesa === */}
-          <Col flex="none">
+          <div className="flex items-center gap-6">
             <Button
-              className="menu"
+              className="block md:hidden! text-black mr-2.5"
               type="text"
               icon={<Icon icon="material-symbols:menu" />}
               onClick={() => setOpen(true)}
-              style={{ fontSize: 22, color: "black", marginRight: 10 }}
+              style={{ fontSize: 22 }}
             />
             <Drawer
               title="Menú"
@@ -75,65 +79,56 @@ export default function AppHeader() {
             >
               {drawerMenu}
             </Drawer>
-          </Col>
+          </div>
 
           {/* === Logos === */}
-          <Col flex="auto" style={{ display: "flex", alignItems: "center" }}>
+          <div className="flex flex-1 justify-center md:flex-none md:justify-start items-center">
             <Link to="/">
               <img
-                className="logo"
+                className="hidden md:block h-24 xl:pr-8 p-0"
                 src={IMAGE}
                 alt="logo"
-                style={{ maxHeight: "6rem", paddingRight: "2rem" }}
               />
-            </Link>
-            <Link to="/">
               <img
-                className="logo-largo"
+                className="block md:hidden h-12 mx-auto"
                 src={IMAGE2}
                 alt="logo largo"
-                style={{ height: "40px" }}
               />
             </Link>
-          </Col>
+          </div>
 
           {/* === Navegación y sesión === */}
-          <div className="container-botones">
-            <div>
-              <Link to="/">
-                <Button>
-                  <span className="font-semibold px-4 py-2">Home</span>
-                </Button>
-              </Link>
-              <Link to="/nosotros">
-                <Button>
-                  <span className="font-semibold px-4 py-2">Nosotros</span>
-                </Button>
-              </Link>
-              <Link to="/services">
-                <Button>
-                  <span className="font-semibold px-4 py-2">Servicios</span>
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button>
-                  <span className="font-semibold px-4 py-2">Contacto</span>
-                </Button>
-              </Link>
-            </div>
-            <div className="log">
-              <Link to="/login">
-                <Button>
-                  {" "}
-                  <span className="font-semibold px-4 py-2">
-                    Iniciar sesión
-                  </span>
-                </Button>
-              </Link>
-            </div>
+          <div className="hidden md:flex flex-row justify-start items-center w-screen h-auto m-0 p-0">
+            {Links &&
+              Links.map((item) => (
+                <div key={item.key}>
+                  <Link to={item.link}>
+                    <Button
+                      className="hover:border-transparent! focus:outline-hidden!"
+                      color="default"
+                      variant="text"
+                    >
+                      <span className="font-semibold px-4 py-2">
+                        {item.text}
+                      </span>
+                    </Button>
+                  </Link>
+                </div>
+              ))}
           </div>
-        </Row>
+          <div className="hidden md:block">
+            <Link to="/login">
+              <Button
+                className="hover:border-transparent! focus:outline-hidden!"
+                color="default"
+                variant="text"
+              >
+                <span className="font-semibold px-4 py-2">INICIAR SESIÓN</span>
+              </Button>
+            </Link>
+          </div>
+        </div>
       </Header>
-    </div>
+    </>
   );
 }
