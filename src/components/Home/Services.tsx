@@ -62,11 +62,16 @@ export const Services = () => {
     <section id="about-services" className="relative z-10">
       <div className="max-w-325 px-4 mx-auto mb-48">
         {/* Header */}
-        <header className="flex justify-center items-center my-24 text-4xl font-bold text-gray-800 text-center">
-          Nuestros servicios
+        <header className="flex justify-center items-center my-24">
+          <h2
+            className="text-4xl font-bold text-gray-800 text-center
+             relative
+             after:content-[''] after:block after:w-44 after:h-[3px]
+             after:bg-blue-800 after:mx-auto after:mt-2 after:mb-24"
+          >
+            Nuestros servicios
+          </h2>
         </header>
-
-        <div className="w-44 h-0.5 bg-blue-800 mx-auto mb-24 -mt-20"></div>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -76,7 +81,7 @@ export const Services = () => {
               key={s.key}
               onClick={() => setOpen(s.key)}
               className="bg-linear-to-t from-[#316FC8] to-[#0F41A2] rounded-2xl overflow-hidden text-white text-center pt-[2.188rem] pb-[.938rem]
- shadow-md hover:scale-110 transition-transform duration-300 flex flex-col justify-between items-center cursor-pointer h-80"
+                       shadow-md hover:scale-110 transition-transform duration-300 flex flex-col justify-between items-center cursor-pointer h-80"
             >
               <h2 className="text-xl font-semibold uppercase mb-2">
                 {s.title}
