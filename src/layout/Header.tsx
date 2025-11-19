@@ -25,8 +25,8 @@ export default function AppHeader() {
       <Menu.Item key="nosotros">
         <Link to="/nosotros">Nosotros</Link>
       </Menu.Item>
-      <Menu.Item key="services">
-        <Link to="/services">Servicios</Link>
+      <Menu.Item key="servicios">
+        <Link to="/servicios">Servicios</Link>
       </Menu.Item>
       <Menu.Item key="contact">
         <Link to="/contact">Contacto</Link>
@@ -46,7 +46,7 @@ export default function AppHeader() {
   const Links: LinkItem[] = [
     { key: 1, link: "/", text: "HOME" },
     { key: 2, link: "/nosotros", text: "NOSOTROS" },
-    { key: 3, link: "/services", text: "SERVICIOS" },
+    { key: 3, link: "/servicios", text: "SERVICIOS" },
     { key: 4, link: "/contact", text: "CONTACTO" },
   ];
 
