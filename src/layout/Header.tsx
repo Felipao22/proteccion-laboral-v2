@@ -11,7 +11,6 @@ const { Header } = Layout;
 
 export default function AppHeader() {
   const [open, setOpen] = useState(false);
-  // const navigate = useNavigate();
 
   const drawerMenu = (
     <Menu
