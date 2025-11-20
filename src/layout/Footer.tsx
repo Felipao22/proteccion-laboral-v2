@@ -115,7 +115,7 @@ export default function Footer() {
               <Icon icon="mdi:email" /> info@proteccionlaboral.com.ar
             </a>
             <a
-              href="https://api.whatsapp.com/send?phone=542664678961"
+              href="https://wa.me/542664678961"
               target="_blank"
               rel="noreferrer"
               className="text-reset"
@@ -123,7 +123,7 @@ export default function Footer() {
               <Icon icon="mdi:whatsapp" /> 2664 678961
             </a>
             <a
-              href="https://api.whatsapp.com/send?phone=542664722453"
+              href="https://wa.me/542664722453"
               target="_blank"
               rel="noreferrer"
               className="text-reset"
