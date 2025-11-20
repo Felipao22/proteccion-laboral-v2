@@ -27,8 +27,8 @@ export default function AppHeader() {
       <Menu.Item key="servicios">
         <Link to="/servicios">Servicios</Link>
       </Menu.Item>
-      <Menu.Item key="contact">
-        <Link to="/contact">Contacto</Link>
+      <Menu.Item key="contacto">
+        <Link to="/contacto">Contacto</Link>
       </Menu.Item>
       <Menu.Item key="login">
         <Link to="/login">Iniciar sesión</Link>
@@ -46,7 +46,7 @@ export default function AppHeader() {
     { key: 1, link: "/", text: "HOME" },
     { key: 2, link: "/nosotros", text: "NOSOTROS" },
     { key: 3, link: "/servicios", text: "SERVICIOS" },
-    { key: 4, link: "/contact", text: "CONTACTO" },
+    { key: 4, link: "/contacto", text: "CONTACTO" },
   ];
 
   return (
