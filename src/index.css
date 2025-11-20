@@ -99,3 +99,22 @@ input[type="number"]::-webkit-outer-spin-button {
 .animate-fadein {
   animation: fadein 0.8s ease-out both;
 }
+
+#contact-form input:-webkit-autofill {
+  border: 1px solid #d0d7e2 !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #0f172a !important;
+  caret-color: #000 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+#contact-form input:-webkit-autofill:focus,
+#contact-form input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+  caret-color: #000 !important;
+}
+
+#contact-form input {
+  caret-color: #000 !important;
+}
