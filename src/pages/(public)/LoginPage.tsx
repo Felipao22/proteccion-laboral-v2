@@ -1,3 +1,5 @@
+import LoginnSection from "../../components/Login/LoginSection";
+
 export const LoginPage = () => {
-  return <div>LoginPage</div>;
+  return <LoginnSection />;
 };
