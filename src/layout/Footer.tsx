@@ -95,7 +95,7 @@ export default function Footer() {
             <Link to="/nosotros">Nosotros</Link>
             <Link to="/services">Servicios</Link>
             <Link to="/contact">Contacto</Link>
-            <Link to="/login">Iniciar sesión</Link>
+            <Link to="/iniciar-sesion">Iniciar sesión</Link>
           </Space>
         </Col>
 

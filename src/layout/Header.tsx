@@ -31,7 +31,7 @@ export default function AppHeader() {
         <Link to="/contacto">Contacto</Link>
       </Menu.Item>
       <Menu.Item key="login">
-        <Link to="/login">Iniciar sesión</Link>
+        <Link to="/iniciar-sesion">Iniciar sesión</Link>
       </Menu.Item>
     </Menu>
   );
@@ -116,7 +116,7 @@ export default function AppHeader() {
               ))}
           </div>
           <div className="hidden md:block">
-            <Link to="/login">
+            <Link to="/iniciar-sesion">
               <Button
                 className="hover:border-transparent! focus:outline-hidden!"
                 color="default"
