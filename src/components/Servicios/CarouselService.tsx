@@ -51,6 +51,7 @@ export const CarouselService = () => {
           </div>
 
           <img
+            loading="eager"
             className="block w-full object-fill max-h-[80vh] aspect-video"
             src={slide.image}
             alt={`slide ${key}`}

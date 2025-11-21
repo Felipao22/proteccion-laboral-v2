@@ -30,6 +30,7 @@ export const HomeCarousel = () => {
         <div className="relative w-full h-full overflow-hidden" key={key}>
           {/* img-overlay */}
           <img
+            loading="eager"
             src={slide.logo}
             alt="logo"
             className="
@@ -66,6 +67,7 @@ export const HomeCarousel = () => {
           </div>
 
           <img
+            loading="eager"
             className="block w-full object-fill max-h-[80vh] aspect-video"
             src={slide.image}
             alt={`slide ${key}`}
