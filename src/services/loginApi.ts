@@ -4,6 +4,8 @@ export interface responseLogin {
   message: string;
   user: User;
   token: string;
+  error: string;
+  warning: string;
 }
 
 export interface User {
@@ -12,15 +14,15 @@ export interface User {
   name: string;
   lastName: string;
   password: string;
-  nombreEmpresa: any;
-  cuit: any;
-  nombreSede: any;
-  ciudad: any;
-  direccion: any;
-  telefono: any;
+  nombreEmpresa: string;
+  cuit: number;
+  nombreSede: string;
+  ciudad: string;
+  direccion: string;
+  telefono: string;
   emails: any;
   accessUser: any;
-  emailJefe: any;
+  emailJefe: string;
   deleted: boolean;
   active: boolean;
   isAdmin: boolean;
