@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { Form, Input } from "antd";
 import { usePostLoginMutation } from "../../services/loginApi";
 import type { dataLogin } from "../../services/loginApi";
-import { setUserId } from "../../utils/userIdStorege";
+import { setUserId } from "../../utils/userIdStorage";
 import {
   NotificationFailure,
   NotificationSuccess,
