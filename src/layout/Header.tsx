@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link } from "../components/Common/Link";
 import { Layout, Menu, Button, Drawer } from "antd";
 
 import IMAGE from "/assets/LOGO CUADRADO.png";
@@ -19,19 +19,19 @@ export default function AppHeader() {
       onClick={() => setOpen(false)}
     >
       <Menu.Item key="home">
-        <Link to="/">Home</Link>
+        <Link href="/">Home</Link>
       </Menu.Item>
       <Menu.Item key="nosotros">
-        <Link to="/nosotros">Nosotros</Link>
+        <Link href="/nosotros">Nosotros</Link>
       </Menu.Item>
       <Menu.Item key="servicios">
-        <Link to="/servicios">Servicios</Link>
+        <Link href="/servicios">Servicios</Link>
       </Menu.Item>
       <Menu.Item key="contacto">
-        <Link to="/contacto">Contacto</Link>
+        <Link href="/contacto">Contacto</Link>
       </Menu.Item>
       <Menu.Item key="login">
-        <Link to="/iniciar-sesion">Iniciar sesión</Link>
+        <Link href="/iniciar-sesion">Iniciar sesión</Link>
       </Menu.Item>
     </Menu>
   );
@@ -82,7 +82,7 @@ export default function AppHeader() {
 
           {/* === Logos === */}
           <div className="flex flex-1 justify-center md:flex-none md:justify-start items-center">
-            <Link to="/">
+            <Link href="/">
               <img
                 className="hidden md:block h-24 xl:pr-8 p-0"
                 src={IMAGE}
@@ -101,7 +101,7 @@ export default function AppHeader() {
             {Links &&
               Links.map((item) => (
                 <div key={item.key}>
-                  <Link to={item.link}>
+                  <Link href={item.link}>
                     <Button
                       className="hover:border-transparent! focus:outline-hidden!"
                       color="default"
@@ -116,7 +116,7 @@ export default function AppHeader() {
               ))}
           </div>
           <div className="hidden md:block">
-            <Link to="/iniciar-sesion">
+            <Link href="/iniciar-sesion">
               <Button
                 className="hover:border-transparent! focus:outline-hidden!"
                 color="default"
