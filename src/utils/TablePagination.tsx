@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Empty, Table } from "antd";
 import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 
 interface BackendPagination {
@@ -40,18 +40,28 @@ export function TablePagination<T extends object>({
   };
 
   return (
-    <Table<T>
-      sticky
-      title={() => title}
-      columns={columns}
-      dataSource={dataSource}
-      pagination={antPagination}
-      loading={loading}
-      rowKey={rowKey}
-      scroll={{ x: true }}
-      bordered
-      size="small"
-      footer={() => `${footer} ${pagination.total}`}
-    />
+    <>
+      <Table<T>
+        sticky
+        title={() => title}
+        columns={columns}
+        dataSource={dataSource}
+        pagination={antPagination}
+        loading={loading}
+        rowKey={rowKey}
+        scroll={{ x: true }}
+        bordered
+        size="small"
+        footer={() => `${footer} ${pagination.total}`}
+        locale={{
+          emptyText: (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="Sin registros"
+            />
+          ),
+        }}
+      />
+    </>
   );
 }
