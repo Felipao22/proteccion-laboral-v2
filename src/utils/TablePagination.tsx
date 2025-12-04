@@ -41,6 +41,7 @@ export function TablePagination<T extends object>({
 
   return (
     <Table<T>
+      sticky
       title={() => title}
       columns={columns}
       dataSource={dataSource}
