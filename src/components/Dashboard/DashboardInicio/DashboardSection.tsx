@@ -5,7 +5,9 @@ import {
 } from "../../../services/usuariosApi";
 import { TablePagination } from "../../../utils/TablePagination";
 import { ColumnsBranches } from "./ColumnsBranches";
-import { Card, Layout, Typography, Space, Input, Select, Button } from "antd";
+import { Card, Layout, Typography, Space, Select, Button } from "antd";
+import { useSearch } from "../../../hooks/useSearch";
+import { InputSearch } from "../../Common/InputSearch";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -25,6 +27,10 @@ export const DashboardSection = () => {
     totalPages: 1,
     total: 0,
   });
+
+  //Custom hook de búsqueda
+  const { searchTerm, setSearchTerm, filteredData } =
+    useSearch<Branches>(branches);
 
   // Cuando trae datos nuevos
   useEffect(() => {
@@ -55,12 +61,11 @@ export const DashboardSection = () => {
             }}
           >
             <Space size="middle" wrap>
-              <Input.Search
+              <InputSearch
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
                 placeholder="Buscar empresa..."
-                allowClear
-                style={{ width: 260 }}
               />
-
               <Select
                 placeholder="Estado"
                 style={{ width: 160 }}
@@ -83,7 +88,7 @@ export const DashboardSection = () => {
             }}
           >
             <TablePagination
-              dataSource={branches}
+              dataSource={filteredData}
               pagination={pagination}
               columns={ColumnsBranches}
               loading={isFetching}
