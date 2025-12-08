@@ -1,11 +1,15 @@
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import { Icon } from "@iconify/react";
 import { useRouter } from "../hooks/useRouter";
+import { useAuth } from "../context/useAuth";
 
 const { Sider } = Layout;
 
 export const LateralMenu = () => {
   const { navigateTo, currentPath } = useRouter();
+
+  //useAuth
+  const { logout, isLoadingLogOut } = useAuth();
 
   const widthIcon = 20;
   const heightIcon = 20;
@@ -117,6 +121,26 @@ export const LateralMenu = () => {
         items={menuItems}
         onClick={(item) => navigateTo(item.key)}
       />
+      <div
+        style={{
+          padding: "16px",
+          marginTop: "auto",
+        }}
+      >
+        <Button
+          className="hover:border-red-600!"
+          type="primary"
+          block
+          danger
+          loading={isLoadingLogOut}
+          onClick={logout}
+          icon={
+            <Icon icon="mdi:logout" width={widthIcon} height={heightIcon} />
+          }
+        >
+          Cerrar Sesión
+        </Button>
+      </div>
     </Sider>
   );
 };
