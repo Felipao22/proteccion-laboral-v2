@@ -3,8 +3,9 @@ import {
   usePostLoginMutation,
   usePostLogOutMutation,
   type dataLogin,
+  type User,
 } from "../services/loginApi";
-import { clearUserId, setUserId } from "../utils/userIdStorage";
+import { clearUser, getUser, setUser } from "../utils/userStorage";
 import {
   NotificationFailure,
   NotificationSuccess,
@@ -19,6 +20,7 @@ export interface AuthContextType {
   logout: () => void;
   isLoading: boolean;
   isLoadingLogOut: boolean;
+  client: User | null;
 }
 
 interface AuthProviderProps {
@@ -27,6 +29,10 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [client, setClient] = useState<User | null>(() => {
+    const stored = getUser();
+    return stored ? stored : null;
+  });
 
   //Custom hook
   const { navigateTo } = useRouter();
@@ -38,8 +44,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = async (userData: dataLogin): Promise<void> => {
     try {
       const { user, message, warning } = await postLogin(userData).unwrap();
-
-      setUserId(user?.userId);
+      setClient(user);
+      setUser(user);
       setIsLoggedIn(true);
       NotificationSuccess(message);
       if (warning) NotificationWarning(warning);
@@ -60,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = async () => {
     try {
-      clearUserId();
+      clearUser();
       setIsLoggedIn(false);
       const response = await postLogOut().unwrap();
       if (response) {
@@ -78,6 +84,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     logout,
     isLoading,
     isLoadingLogOut,
+    client,
   };
 
   return <AuthContext value={value}>{children}</AuthContext>;
