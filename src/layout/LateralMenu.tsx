@@ -17,7 +17,6 @@ export const LateralMenu = () => {
   const heightIcon = 20;
 
   const menuItems = [
-    // 👉 Items visibles solo para administradores
     ...(isAdmin
       ? [
           {
