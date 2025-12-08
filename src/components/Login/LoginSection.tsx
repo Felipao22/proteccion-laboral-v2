@@ -1,25 +1,18 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Form, Input } from "antd";
-import { usePostLoginMutation } from "../../services/loginApi";
 import type { dataLogin } from "../../services/loginApi";
-import { setUserId } from "../../utils/userIdStorage";
-import {
-  NotificationFailure,
-  NotificationSuccess,
-  NotificationWarning,
-} from "../Common/Notifications";
-import { useNavigate } from "react-router";
+import { NotificationFailure } from "../Common/Notifications";
+import { useAuth } from "../../context/useAuth";
 
 export default function LoginnSection() {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
-  //Mutation Redux
-  const [login, { isLoading }] = usePostLoginMutation();
 
-  const navigate = useNavigate();
+  //useAuth
+  const { login, isLoading } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues((values) => ({
@@ -34,15 +27,7 @@ export default function LoginnSection() {
         email: values.email,
         password: values.password,
       };
-      const response = await login(data).unwrap();
-
-      if (response) {
-        setUserId(response.user?.userId);
-
-        NotificationSuccess(response.message);
-        NotificationWarning(response.warning);
-        navigate("/dashboard");
-      }
+      await login(data);
     } catch (error: any) {
       console.error(error);
       NotificationFailure(error.response.error);
@@ -69,7 +54,7 @@ export default function LoginnSection() {
             <div
               className="relative rounded-3xl bg-white/80 backdrop-blur-sm shadow-2xl 
              p-8 md:p-10 max-w-[420px] mx-auto
-             translate-y-0 xl:translate-y-12
+             translate-y-0
              ring-1 ring-black/5"
               role="region"
               aria-labelledby="login-title"
