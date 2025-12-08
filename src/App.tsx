@@ -8,6 +8,7 @@ import { ContactoPage } from "./pages/(public)/ContactoPage";
 import { DashboardPage } from "./pages/(private)/dashboard/DashboardPage";
 import { ToastContainer } from "react-toastify";
 import { LayOutUsers } from "./layout/LayOutUsers";
+import { UsuariosPage } from "./pages/(private)/usuarios/UsuariosPage";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route path="dashboard" element={<LayOutUsers />}>
           <Route index element={<DashboardPage />} />
+        </Route>
+        <Route path="usuarios" element={<LayOutUsers />}>
+          <Route index element={<UsuariosPage />} />
         </Route>
       </Routes>
     </>
