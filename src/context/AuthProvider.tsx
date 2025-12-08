@@ -43,8 +43,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsLoggedIn(true);
       NotificationSuccess(message);
       if (warning) NotificationWarning(warning);
-
-      navigateTo("/dashboard");
+      if (user.isAdmin || user.isSuperAdmin) {
+        navigateTo("/dashboard");
+      } else {
+        navigateTo("/usuarios");
+      }
     } catch (error: any) {
       console.error("Error al iniciar sesión", error);
 
