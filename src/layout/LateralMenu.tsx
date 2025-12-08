@@ -9,109 +9,127 @@ export const LateralMenu = () => {
   const { navigateTo, currentPath } = useRouter();
 
   //useAuth
-  const { logout, isLoadingLogOut } = useAuth();
+  const { logout, isLoadingLogOut, client } = useAuth();
+
+  const isAdmin = client?.isAdmin || client?.isSuperAdmin;
 
   const widthIcon = 20;
   const heightIcon = 20;
 
   const menuItems = [
-    {
-      key: "/dashboard",
-      icon: (
-        <Icon
-          icon="material-symbols:dashboard"
-          width={widthIcon}
-          height={heightIcon}
-        />
-      ),
-      label: "Dashboard",
-    },
-    {
-      key: "/dashboard/cargar-archivos",
-      icon: (
-        <Icon
-          icon="material-symbols:upload-file"
-          width={widthIcon}
-          height={heightIcon}
-        />
-      ),
-      label: "Cargar Archivos",
-    },
-    {
-      key: "/dashboard/cambiar-contraseña",
-      icon: (
-        <Icon
-          icon="hugeicons:reset-password"
-          width={widthIcon}
-          height={heightIcon}
-        />
-      ),
-      label: "Cambiar Contraseña",
-    },
-    {
-      key: "/dashboard/registrar-empresa",
-      icon: (
-        <Icon icon="famicons:business" width={widthIcon} height={heightIcon} />
-      ),
-      label: "Registrar Establecimiento/Obra",
-    },
-    {
-      key: "/dashboard/registrar-empleado",
-      icon: (
-        <Icon icon="mdi:account-plus" width={widthIcon} height={heightIcon} />
-      ),
-      label: "Registrar Empleado",
-    },
-    {
-      key: "/dashboard/empleados",
-      icon: (
-        <Icon
-          icon="gravity-ui:person-worker"
-          width={widthIcon}
-          height={heightIcon}
-        />
-      ),
-      label: "Empleados",
-    },
-    {
-      key: "/dashboard/tipo-archivo",
-      icon: (
-        <Icon
-          icon="icon-park-outline:category-management"
-          width={widthIcon}
-          height={heightIcon}
-        />
-      ),
-      label: "Agregar tipo de Archivo",
-    },
-    {
-      key: "/dashboard/almacenamiento",
-      icon: (
-        <Icon
-          icon="zondicons:chart-pie"
-          width={widthIcon}
-          height={heightIcon}
-        />
-      ),
-      label: "Almacenamiento",
-    },
-    {
-      key: "/usuarios",
-      icon: <Icon icon="bxs:user" width={widthIcon} height={heightIcon} />,
-      label: "Usuarios",
-      children: [
-        { key: "/usuarios/archivos", label: "Archivos" },
-        { key: "/usuarios/perfil", label: "Mi Perfil" },
-      ],
-    },
+    // 👉 Items visibles solo para administradores
+    ...(isAdmin
+      ? [
+          {
+            key: "/dashboard",
+            icon: (
+              <Icon
+                icon="material-symbols:dashboard"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Dashboard",
+          },
+          {
+            key: "/dashboard/cargar-archivos",
+            icon: (
+              <Icon
+                icon="material-symbols:upload-file"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Cargar Archivos",
+          },
+          {
+            key: "/dashboard/cambiar-contraseña",
+            icon: (
+              <Icon
+                icon="hugeicons:reset-password"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Cambiar Contraseña",
+          },
+          {
+            key: "/dashboard/registrar-empresa",
+            icon: (
+              <Icon
+                icon="famicons:business"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Registrar Establecimiento/Obra",
+          },
+          {
+            key: "/dashboard/registrar-empleado",
+            icon: (
+              <Icon
+                icon="mdi:account-plus"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Registrar Empleado",
+          },
+          {
+            key: "/dashboard/empleados",
+            icon: (
+              <Icon
+                icon="gravity-ui:person-worker"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Empleados",
+          },
+          {
+            key: "/dashboard/tipo-archivo",
+            icon: (
+              <Icon
+                icon="icon-park-outline:category-management"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Agregar tipo de Archivo",
+          },
+          {
+            key: "/dashboard/almacenamiento",
+            icon: (
+              <Icon
+                icon="zondicons:chart-pie"
+                width={widthIcon}
+                height={heightIcon}
+              />
+            ),
+            label: "Almacenamiento",
+          },
+        ]
+      : [
+          {
+            key: "/usuarios",
+            icon: (
+              <Icon icon="bxs:user" width={widthIcon} height={heightIcon} />
+            ),
+            label: "Usuarios",
+            children: [
+              { key: "/usuarios/archivos", label: "Archivos" },
+              { key: "/usuarios/perfil", label: "Mi Perfil" },
+            ],
+          },
+        ]),
   ];
 
   return (
-    <Sider collapsible theme="dark">
+    <Sider collapsible>
       <img
         src="/assets/LOGO CUADRADO blanco.png"
         alt="logo protección laboral"
-        className="h-auto w-auto"
+        className="h-auto w-auto aspect-square"
       />
       <Menu
         mode="inline"
