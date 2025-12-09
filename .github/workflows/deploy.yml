@@ -11,17 +11,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Clean previous frontend on VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            rm -rf /root/proteccion-app/frontend
-
+        
       - name: Upload frontend + compose
         uses: appleboy/scp-action@v0.1.7
         with:
