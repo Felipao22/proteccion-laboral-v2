@@ -14,7 +14,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2️⃣ Crear carpeta en el VPS si no existe
+      # 2️⃣ Crear carpeta de deploy temporal y copiar archivos
+      - name: Prepare deploy folder
+        run: |
+          mkdir -p deploy
+          cp ./frontend/Dockerfile deploy/
+          cp ./docker-compose.yml deploy/
+
+      # 3️⃣ Crear carpeta en el VPS si no existe
       - name: Ensure project directory exists on VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -24,7 +31,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: mkdir -p /root/proteccion-app
 
-      # 3️⃣ Subir Dockerfile y docker-compose.yml al VPS
+      # 4️⃣ Subir los archivos de deploy al VPS
       - name: Upload Dockerfile and docker-compose.yml
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -32,12 +39,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          source: |
-            ./frontend/Dockerfile
-            ./docker-compose.yml
+          source: ./deploy
           target: /root/proteccion-app
 
-      # 4️⃣ Deploy usando Docker Compose en el VPS
+      # 5️⃣ Deploy con Docker Compose
       - name: Build & Deploy with Docker Compose
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -50,4 +55,3 @@ jobs:
             docker compose down
             docker compose build --no-cache
             docker compose up -d
-
