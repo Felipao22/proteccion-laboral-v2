@@ -37,4 +37,4 @@ EXPOSE 3000
 #USER node
 
 # Start the app (adjust entrypoint as needed)
-CMD ["npm", "start"]
+CMD ["pnpm", "run dev"]
