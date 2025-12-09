@@ -12,8 +12,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Ensure folder exists
-      - name: Ensure directory exists on VPS
+      # 1️⃣ Crear carpeta en el VPS si no existe
+      - name: Ensure project directory exists on VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -22,18 +22,24 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: mkdir -p /root/proteccion-app
 
-      # Upload entire frontend folder + compose
-      - name: Upload frontend + compose
+      # 2️⃣ Subir TODA la carpeta frontend y docker-compose
+      - name: Upload project files
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          source: "frontend/**,docker-compose.yml"
+
+          # Súper importante:
+          # - Usa `./frontend/**` para subir subcarpetas 
+          # - Usa `./docker-compose.yml`
+          source: |
+            ./frontend/**
+            ./docker-compose.yml
           target: "/root/proteccion-app"
 
-      # Deploy frontend
+      # 3️⃣ Correr Docker Compose recién cuando TODO ya se subió
       - name: Build & Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -46,4 +52,3 @@ jobs:
             docker compose down
             docker compose build --no-cache
             docker compose up -d
-
