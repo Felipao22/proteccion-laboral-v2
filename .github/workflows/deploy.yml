@@ -12,14 +12,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 1️⃣ Instalar dependencias y compilar frontend localmente
-      - name: Install & Build Frontend
-        working-directory: ./frontend
-        run: |
-          npm install -g pnpm@8.7.4
-          pnpm install
-          pnpm run build
-
       # 2️⃣ Crear carpeta en el VPS si no existe
       - name: Ensure project directory exists on VPS
         uses: appleboy/ssh-action@v1.0.3
