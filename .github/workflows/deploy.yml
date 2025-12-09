@@ -12,7 +12,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Upload only frontend + compose file
+      - name: Clean previous frontend on VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            rm -rf /root/proteccion-app/frontend
+
+
+      # Subir frontend + compose sin .env
       - name: Upload project to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -20,8 +31,11 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "frontend/*,docker-compose.yml"
+          source: |
+            frontend
+            docker-compose.yml
           target: "/root/proteccion-app"
+          strip_components: 0
 
       - name: Build and Deploy on VPS
         uses: appleboy/ssh-action@v1.0.3
@@ -32,5 +46,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /root/proteccion-app
-            docker compose build
+            docker compose build --no-cache
+            docker compose down
             docker compose up -d
+            docker system prune -f
