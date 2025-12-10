@@ -1,40 +1,29 @@
-# Use official Node.js v20.19.2 slim image
-FROM node:20.19.2-slim
+# --- Build Stage ---
+FROM node:20.19.2-slim AS build
 
-# Set working directory
 WORKDIR /app
 
-# Install YOUR pnpm version
+# Instalar pnpm
 RUN npm install -g pnpm@8.7.4
-# Install dependencies first (leverage Docker cache)
-COPY package*.json ./
-RUN pnpm install --omit=dev
 
-# Copy only necessary files
+# Copiar deps
+COPY package*.json pnpm-lock.yaml* ./
+RUN pnpm install
+
+# Copiar proyecto entero
 COPY . .
 
-# Change UID and GID of node user to match host (githubrunner: 1001)
-#RUN usermod -u 1001 node && groupmod -g 1001 node
-
-# Give permissions to /app folder to node user
-#RUN chown -R node:node /app
-
-# Build the app
-#RUN npm run build
+# Compilar Vite
 RUN pnpm run build
 
+# --- Production Stage ---
+FROM nginx:alpine
 
-# Mover build a /inicio
-#RUN mkdir -p /app/inicio && mv /app/build/* /app/inicio/
+# Copiar archivos generados
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Set NODE_ENV to production
-ENV NODE_ENV=production
+# Exponer puertos
+EXPOSE 80
+EXPOSE 443
 
-# Expose the port your app runs on (change if needed)
-EXPOSE 3000
-
-# Use a non-root user for security
-#USER node
-
-# Start the app (adjust entrypoint as needed)
-CMD ["pnpm", "run dev"]
+CMD ["nginx", "-g", "daemon off;"]

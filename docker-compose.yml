@@ -1,7 +1,7 @@
 services:
   frontend:
     build:
-      context: ./frontend
+      context: .
       dockerfile: Dockerfile
     container_name: frontend_proteccion
     restart: always
@@ -9,7 +9,7 @@ services:
       - "80:80"
       - "443:443"
     env_file:
-      - ./frontend/.env
+      - ./.env
     volumes:
       - /etc/letsencrypt/live/docker.back-proteccion.site/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro
       - /etc/letsencrypt/live/docker.back-proteccion.site/privkey.pem:/etc/nginx/certs/privkey.pem:ro
