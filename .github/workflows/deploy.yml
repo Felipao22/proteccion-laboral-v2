@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           source: ./
-          target: /root/proteccion-app
+          target: /root/proteccion-app/frontend
 
       # Ejecutar Docker Compose
       - name: Build & Run with Docker Compose
@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /root/proteccion-app
+            cd /root/proteccion-app/frontend
             docker compose down
             docker compose build --no-cache
             docker compose up -d
