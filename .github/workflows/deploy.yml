@@ -1,19 +1,28 @@
-name: Deploy Frontend to VPS
+name: frontend Frontend to VPS via Docker
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  deploy:
+  frontend:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout del repositorio
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Ensure folder exists
-      - name: Ensure directory exists on VPS
+      # 2️⃣ Crear carpeta de frontend temporal y copiar archivos
+      - name: Prepare frontend folder
+        run: |
+          mkdir -p frontend
+          cp ./Dockerfile frontend/
+          cp ./docker-compose.yml frontend/
+
+      # 3️⃣ Crear carpeta en el VPS si no existe
+      - name: Ensure project directory exists on VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -22,19 +31,19 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: mkdir -p /root/proteccion-app
 
-      # Upload entire frontend folder + compose
-      - name: Upload frontend + compose
+      # 4️⃣ Subir los archivos de frontend al VPS
+      - name: Upload Dockerfile and docker-compose.yml
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          source: "frontend/**,docker-compose.yml"
-          target: "/root/proteccion-app"
+          source: ./frontend
+          target: /root/proteccion-app
 
-      # Deploy frontend
-      - name: Build & Deploy
+      # 5️⃣ frontend con Docker Compose
+      - name: Build & frontend with Docker Compose
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -42,8 +51,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /root/proteccion-app
+            cd /root/proteccion-app/frontend
             docker compose down
             docker compose build --no-cache
             docker compose up -d
-
