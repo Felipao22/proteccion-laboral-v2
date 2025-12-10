@@ -1,4 +1,4 @@
-name: frontend Frontend to VPS via Docker
+name: Deploy Frontend
 
 on:
   push:
@@ -6,22 +6,14 @@ on:
       - main
 
 jobs:
-  frontend:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout del repositorio
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2️⃣ Crear carpeta de frontend temporal y copiar archivos
-      - name: Prepare frontend folder
-        run: |
-          mkdir -p frontend
-          cp ./Dockerfile frontend/
-          cp ./docker-compose.yml frontend/
-
-      # 3️⃣ Crear carpeta en el VPS si no existe
+      # Crear carpeta en VPS si no existe
       - name: Ensure project directory exists on VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -31,19 +23,19 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: mkdir -p /root/proteccion-app
 
-      # 4️⃣ Subir los archivos de frontend al VPS
-      - name: Upload Dockerfile and docker-compose.yml
+      # Subir todos los archivos del proyecto al VPS
+      - name: Upload project to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          source: ./frontend
-          target: /root/proteccion-app
+          source: ./
+          target: /root/proteccion-app/frontend
 
-      # 5️⃣ frontend con Docker Compose
-      - name: Build & frontend with Docker Compose
+      # Ejecutar Docker Compose
+      - name: Build & Run with Docker Compose
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
