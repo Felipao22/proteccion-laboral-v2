@@ -8,14 +8,15 @@ RUN npm install -g pnpm@8.7.4
 
 # Copiar dependencias
 COPY package*.json pnpm-lock.yaml* ./
-
 RUN pnpm install
 
-# Copiar proyecto entero y el .env
+# Copiar proyecto entero
 COPY . .
+
+# Copiar .env local para que Vite lo use en el build
 COPY .env .env
 
-# Compilar Vite (ahora sí tiene acceso al .env)
+# Compilar Vite
 RUN pnpm run build
 
 # --- Production Stage ---
