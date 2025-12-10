@@ -18,7 +18,7 @@ jobs:
       - name: Prepare deploy folder
         run: |
           mkdir -p deploy
-          cp ./frontend/Dockerfile deploy/
+          cp ./Dockerfile deploy/
           cp ./docker-compose.yml deploy/
 
       # 3️⃣ Crear carpeta en el VPS si no existe
