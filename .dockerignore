@@ -12,9 +12,6 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Env
-.env
-.env.*
 
 # Local build output (docker necesita solo el build final, no estos)
 dist
