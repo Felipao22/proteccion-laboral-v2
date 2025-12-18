@@ -1,16 +1,9 @@
 services:
   frontend:
+    container_name: frontend_proteccion
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: frontend_proteccion
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      # Monta tu nginx.conf desde el host
-      - /root/proteccion-app/frontend/nginx.conf:/etc/nginx/conf.d/default.conf
-      # Certificados SSL
-      - /etc/letsencrypt/live/docker.back-proteccion.site/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro
-      - /etc/letsencrypt/live/docker.back-proteccion.site/privkey.pem:/etc/nginx/certs/privkey.pem:ro
+      - "3000:80"
