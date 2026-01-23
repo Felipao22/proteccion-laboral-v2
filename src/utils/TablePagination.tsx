@@ -52,7 +52,11 @@ export function TablePagination<T extends object>({
         scroll={{ x: true }}
         bordered
         size="small"
-        footer={() => `${footer} ${pagination.total}`}
+        footer={() => footer && (
+          <footer>
+            {footer} {pagination.total}
+          </footer>)
+        }
         locale={{
           emptyText: (
             <Empty
