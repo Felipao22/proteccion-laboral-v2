@@ -50,7 +50,7 @@ export const InputSearch: React.FC<InputSearchProps> = ({
       onChange={(e) => onSearchChange(e.target.value)}
       value={searchTerm}
       allowClear
-      style={{ width: 260 }}
+      className="w-full sm:w-full md:w-64 lg:w-80"
     />
   );
 };
