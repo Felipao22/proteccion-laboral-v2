@@ -55,6 +55,7 @@ export interface Branches {
   accessUser: any[];
   emailJefe: string;
   active: boolean;
+  createdAt: string;
 }
 
 export interface Pagination {
