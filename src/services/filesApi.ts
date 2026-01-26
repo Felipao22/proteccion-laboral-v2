@@ -57,6 +57,22 @@ export const filesApi = apiSlice.injectEndpoints({
         body: filters,
       }),
     }),
+    getFilesByUserEmail: builder.query<
+    FileResponse,
+    { email: string; page?: number }
+  >({
+    query: ({ email, page = 1 }) => {
+      return `/file/branch?email=${email}&page=${page}`;
+    },
+    providesTags: ["File"],
+  }),
+  getDownloadFile: builder.query<Blob, string>({
+    query: (id) => ({
+      url: `/file/${id}`,
+      responseHandler: (response) => response.blob(),
+    }),
+    providesTags: ["File"],
+  }),
   }),
   overrideExisting: true,
 });
@@ -67,4 +83,6 @@ export const {
   useLazyGetFilesByKindIdQuery,
   usePostDeleteFileByIdMutation,
   usePostFilterFilesMutation,
+  useGetFilesByUserEmailQuery,
+  useLazyGetDownloadFileQuery,
 } = filesApi;
