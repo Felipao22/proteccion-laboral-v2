@@ -1,5 +1,5 @@
 import { apiSlice } from "../store/apiSlice";
-import type { File } from "./usuariosApi";
+import type { File, Pagination } from "./usuariosApi";
 
 export interface Kind {
   id: string;
@@ -10,12 +10,13 @@ export interface Kind {
 export interface FileResponse {
   message: string;
   data: File[];
+  pagination: Pagination;
 }
 
 export interface filterFileResponse {
   message: string;
   filrtersApplied: filtersApplied;
-  pagination: pagination;
+  pagination: Pagination;
   data: File[];
 }
 
@@ -23,19 +24,13 @@ export interface filtersApplied {
   startDate?: string;
   endDate?: string;
   userId?: string;
-  kindId?: string;
+  kindId?: string;  
   page?: number;
-}
-export interface pagination {
-  page: number;
-  limit: number;
-  totalPages: number;
-  total: number;
 }
 
 export const filesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getFiles: builder.query<File[], string | void>({
+    getFiles: builder.query<FileResponse, string | void>({
       query: (name) =>
         name && name.trim() !== "" ? `/file?name=${name}` : "/file",
       providesTags: ["File"],
