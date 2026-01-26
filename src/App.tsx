@@ -9,6 +9,7 @@ import { DashboardPage } from "./pages/(private)/dashboard/DashboardPage";
 import { ToastContainer } from "react-toastify";
 import { LayOutUsers } from "./layout/LayOutUsers";
 import { UsuariosPage } from "./pages/(private)/usuarios/UsuariosPage";
+import { ArchivosPage } from "./pages/(private)/archivos/ArchivosPage";
 
 function App() {
   return (
@@ -37,6 +38,9 @@ function App() {
         </Route>
         <Route path="usuarios" element={<LayOutUsers />}>
           <Route index element={<UsuariosPage />} />
+        </Route>
+        <Route path="archivos" element={<LayOutUsers />}>
+          <Route index element={<ArchivosPage />} />
         </Route>
       </Routes>
     </>
