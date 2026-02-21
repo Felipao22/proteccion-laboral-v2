@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Button, Dropdown, Modal, message } from "antd";
+import { Button, Dropdown } from "antd";
 import type { MenuProps as AntMenuProps } from "antd";
 import { Icon } from "@iconify/react";
-import { usePutBlockOrUnblockUserMutation, type Branches } from "../../../services/usuariosApi";
+import { useDeleteOrActiveUserMutation, usePutBlockOrUnblockUserMutation, type Branches } from "../../../services/usuariosApi";
 import { DetailModal } from "./DetailModal";
 import { useRouter } from "../../../hooks/useRouter";
 import { NotificationFailure, NotificationSuccess } from "../../Common/Notifications";
@@ -15,10 +15,12 @@ interface ActionsDropdownProps {
 export const ActionsDropdown = ({ record }: ActionsDropdownProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirmModalOpenEliminar, setConfirmModalOpenEliminar] = useState(false);
   const { navigateTo } = useRouter();
 
   //Mutation Redux
-  const [putBlockOrUnblockUser, {isLoading: isLoadingBlockOrUnblock}] = usePutBlockOrUnblockUserMutation();
+  const [putBlockOrUnblockUser, { isLoading: isLoadingBlockOrUnblock }] = usePutBlockOrUnblockUserMutation();
+  const [deleteOrActiveUser, { isLoading: isLoadingDeleteOrActive }] = useDeleteOrActiveUserMutation();
 
   const handleVerDetalles = () => {
     setModalOpen(true);
@@ -29,17 +31,7 @@ export const ActionsDropdown = ({ record }: ActionsDropdownProps) => {
   };
 
   const handleEliminar = () => {
-    Modal.confirm({
-      title: "¿Está seguro de eliminar esta empresa?",
-      content: `Se eliminará la empresa: ${record.nombreEmpresa}`,
-      okText: "Eliminar",
-      okType: "danger",
-      cancelText: "Cancelar",
-      onOk: () => {
-        message.success("Empresa eliminada correctamente");
-        // TODO: Implementar lógica de eliminación
-      },
-    });
+    setConfirmModalOpenEliminar(true);
   };
 
   const handleBloquear = () => {
@@ -59,6 +51,19 @@ export const ActionsDropdown = ({ record }: ActionsDropdownProps) => {
     }
   };
 
+  const handleConfirmEliminar = async () => {
+    try {
+      const response = await deleteOrActiveUser(record.email).unwrap();
+      if (response) {
+        NotificationSuccess(response.message);
+        setConfirmModalOpenEliminar(false);
+      }
+    } catch (error: any) {
+      console.error("Error al eliminar empresa", error);
+      NotificationFailure(error.data?.error ?? "Ocurrió un error inesperado");
+    }
+  };
+
   const menuItems: AntMenuProps["items"] = [
     {
       key: "ver-detalles",
@@ -69,7 +74,7 @@ export const ActionsDropdown = ({ record }: ActionsDropdownProps) => {
     {
       key: "ver-archivos",
       label: "Ver Archivos",
-      icon: <Icon width={18}  icon="mdi:file-document-outline" />,
+      icon: <Icon width={18} icon="mdi:file-document-outline" />,
       onClick: handleVerArchivos,
     },
     {
@@ -78,17 +83,18 @@ export const ActionsDropdown = ({ record }: ActionsDropdownProps) => {
     {
       key: "bloquear",
       label: record.active ? "Bloquear" : "Desbloquear",
-      icon: <Icon width={18}  icon={record.active ? "mdi:lock-outline" : "mdi:lock-open-outline"} />,
+      icon: <Icon width={18} icon={record.active ? "mdi:lock-outline" : "mdi:lock-open-outline"} />,
       onClick: handleBloquear,
       danger: record.active,
       disabled: isLoadingBlockOrUnblock,
     },
     {
       key: "eliminar",
-      label: "Eliminar",
-      icon: <Icon width={18}  icon="mdi:delete-outline" />,
+      label: record.deleted ? "Reactivar" : "Eliminar",
+      icon: <Icon width={18} icon={record.deleted ? "mdi:check-circle-outline" : "mdi:delete-outline"} />,
       onClick: handleEliminar,
       danger: true,
+      disabled: isLoadingDeleteOrActive,
     },
   ];
 
@@ -99,6 +105,7 @@ export const ActionsDropdown = ({ record }: ActionsDropdownProps) => {
       </Dropdown>
       <DetailModal open={modalOpen} onClose={() => setModalOpen(false)} branch={record} />
       <ConfirmModal title={`¿Está seguro de ${record.active ? "bloquear" : "desbloquear"} esta empresa?`} description={`Se ${record.active ? "bloqueará" : "desbloqueará"} la empresa: ${record.nombreEmpresa}`} okText={record.active ? "Si, Bloquear" : "Si, Desbloquear"} cancelText="Cancelar" open={confirmModalOpen} onClose={() => setConfirmModalOpen(false)} action={handleConfirmBloquear} isLoading={isLoadingBlockOrUnblock} />
+      <ConfirmModal title={`¿Está seguro de ${record.deleted ? "reactivar" : "eliminar"} esta empresa?`} description={`Se ${record.deleted ? "reactivará" : "eliminará"} la empresa: ${record.nombreEmpresa}`} okText={record.deleted ? "Si, Reactivar" : "Si, Eliminar"} cancelText="Cancelar" open={confirmModalOpenEliminar} onClose={() => setConfirmModalOpenEliminar(false)} action={handleConfirmEliminar} isLoading={isLoadingDeleteOrActive} />
     </>
   );
 };
