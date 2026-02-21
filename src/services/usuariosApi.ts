@@ -65,6 +65,12 @@ export interface Pagination {
   total: number;
 }
 
+export interface responseBlockOrUnblockUser {
+  message: string;
+  error?: string;
+  warning?: string;
+}
+
 export const usuariosApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<Users[], void>({
@@ -75,8 +81,15 @@ export const usuariosApi = apiSlice.injectEndpoints({
       query: (page = 1) => `/user/branches?page=${page}`,
       providesTags: ["User"],
     }),
+    putBlockOrUnblockUser: builder.mutation<responseBlockOrUnblockUser, string>({
+      query: (email) => ({
+        url: `/user/baneo/${email}`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetUsersQuery, useGetBranchesQuery } = usuariosApi;
+export const { useGetUsersQuery, useGetBranchesQuery, usePutBlockOrUnblockUserMutation } = usuariosApi;
