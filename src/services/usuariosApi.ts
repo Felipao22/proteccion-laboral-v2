@@ -56,6 +56,7 @@ export interface Branches {
   emailJefe: string;
   active: boolean;
   createdAt: string;
+  deleted: boolean;
 }
 
 export interface Pagination {
@@ -88,8 +89,15 @@ export const usuariosApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    deleteOrActiveUser: builder.mutation<responseBlockOrUnblockUser, string>({
+      query: (email) => ({
+        url: `/user/delete/${email}`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetUsersQuery, useGetBranchesQuery, usePutBlockOrUnblockUserMutation } = usuariosApi;
+export const { useGetUsersQuery, useGetBranchesQuery, usePutBlockOrUnblockUserMutation, useDeleteOrActiveUserMutation } = usuariosApi;
