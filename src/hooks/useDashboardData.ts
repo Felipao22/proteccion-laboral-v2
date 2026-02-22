@@ -85,6 +85,6 @@ export const useDashboardData = (): UseDashboardDataReturn => {
     filteredData,
     isFetching,
     isFetchingFiles,
-    totalFiles,
+    totalFiles
   };
 };
